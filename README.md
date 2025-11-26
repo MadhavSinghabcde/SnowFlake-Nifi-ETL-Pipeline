@@ -15,7 +15,7 @@ This project is an end-to-end **data engineering pipeline** that:
 ---
 
 ## Architecture Overview
-![Snowflake-Nifi-ETL-Flow-Diagram](Snowflake-apacheNifi-ETL-Flow-Diagram.png)
+![Snowflake-Nifi-ETL-Flow-Diagram](images/Project-Flow-Diagram.png)
 **How Data flows in the Project:**
 
 1. **Docker Compose on AWS EC2** runs:
