@@ -1,11 +1,8 @@
 # SnowFlake-Nifi-ETL-Pipeline
 Using Apache Nifi for Data Creation, S3 for data storage and Snowflake for loading and scd of data.
-![Snowflake-Nifi-ETL-Flow-Diagram](Snowflake-apacheNifi-ETL-Flow-Diagram.png)
 
 
-Here’s the full README in ready-to-paste Markdown:
 
-````markdown
 # Snowflake Customer Data Pipeline (Docker, NiFi, S3, Snowpipe)
 
 This project is an end-to-end **data engineering pipeline** that:
@@ -18,14 +15,14 @@ This project is an end-to-end **data engineering pipeline** that:
 ---
 
 ## Architecture Overview
-
-**High-level flow:**
+![Snowflake-Nifi-ETL-Flow-Diagram](Snowflake-apacheNifi-ETL-Flow-Diagram.png)
+**How Data flows in the Project:**
 
 1. **Docker Compose on AWS EC2** runs:
    - Apache NiFi  
    - ZooKeeper  
    - Jupyter Notebook (with Faker)
-2. Jupyter generates **CSV files** with fake customer data.
+2. Jupyter generates **CSV files** with fake customer data using Faker Library.
 3. NiFi picks up the CSV files and uploads them to an **S3 bucket**.
 4. **S3 event notifications** (object created) trigger **Snowpipe** (via SQS).
 5. Snowpipe loads data into a **raw table**: `CUSTOMER_RAW`.
@@ -36,21 +33,21 @@ This project is an end-to-end **data engineering pipeline** that:
 
 ```text
 Jupyter (Faker) --> CSV files --> Apache NiFi --> S3 Bucket
-                                             |
-                                             v
-                                 S3 Event Notifications (SQS)
-                                             |
-                                             v
-                                           Snowpipe
-                                             |
-                                             v
-                                       CUSTOMER_RAW
-                                        |       |
-                        Stream on RAW   |       v
-                                        |  SCD1: CUSTOMERS
-                                        |  SCD2: CUSTOMER_CHANGES_HISTORY
-````
+                                                      |
+                                                      v
+                                          S3 Event Notifications (SQS)
+                                                      |
+                                                      v
+                                                    Snowpipe
+                                                      |
+                                                      v
+                                                CUSTOMER_RAW
+                                                 |       |
+                                 Stream on RAW   |       v
+                                                 |  SCD1: CUSTOMERS
+                                                 |  SCD2: CUSTOMER_CHANGES_HISTORY
 
+```
 ---
 
 ## How It Works & How to Run It
@@ -120,6 +117,7 @@ This will start:
 Result: a small “stream” of CSV files appearing on the EC2 machine.
 
 ---
+<img src="images/Apache-Nifi-flow.png" alt="Apache NiFi Flow" width="800" height="650">
 
 ### 5. Move Files into S3 (Apache NiFi)
 
@@ -231,7 +229,3 @@ Adjust to your actual repo layout:
 * Plug a BI tool into `CUSTOMERS` and `CUSTOMER_CHANGES_HISTORY`.
 * Swap Faker for a real-time source (Kafka, Kinesis, etc.) to make this closer to production.
 
-```
-
-::contentReference[oaicite:0]{index=0}
-```
